@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+#  namespace: ingress-nginx
+  name: echo22
+  labels:
+    app: echo22
+spec:
+  ports:
+  - port: 80
+    targetPort: 5678
+  selector:
+    app: echo22
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+#  namespace: ingress-nginx
+  name: echo22
+  labels:
+    app: echo22
+spec:
+  selector:
+    matchLabels:
+      app: echo22
+  replicas: 1
+  template:
+    metadata:
+#      namespace: ingress-nginx
+      labels:
+        app: echo22
+    spec:
+      containers:
+      - name: echo22
+        image: hashicorp/http-echo
+        args:
+        - "-text=echo22"
+        ports:
+        - containerPort: 5678

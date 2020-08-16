@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+#  namespace: ingress-nginx
+  name: echo-ingress-2
+spec:
+  rules:
+  - host: echo11.ostrike.com
+    http:
+      paths:
+      - backend:
+          serviceName: echo11
+          servicePort: 80
+  - host: echo22.ostrike.com
+    http:
+      paths:
+      - backend:
+          serviceName: echo22
+          servicePort: 80
