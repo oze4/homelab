@@ -1,44 +1,44 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: echo
+  name: echo999
   labels:
-    app: echo
+    app: echo999
 spec:
   ports:
   - port: 80
     targetPort: 5678
   selector:
-    app: echo
+    app: echo999
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: echo
-  name: echo
+    app: echo999
+  name: echo999
 spec:
   selector:
     matchLabels:
-      app: echo
-  replicas: 2
+      app: echo999
+  replicas: 1
   template:
     metadata:
       labels:
-        app: echo
+        app: echo999
     spec:
       containers:
-      - name: echo
+      - name: echo999
         image: hashicorp/http-echo
         args:
-        - "-text=echo"
+        - "-text=echo999"
         ports:
         - containerPort: 5678
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: echo-ingress
+  name: echo999-ingress
   annotations:  
     kubernetes.io/ingress.class: nginx # <----------------------------- # CHANGE THIS IF NOT USING NGINX INGRESS CONTROLLER
     cert-manager.io/cluster-issuer: "letsencrypt-cluster-issuer" # <--- # CHANGE THIS TO MATCH YOUR ClusterIssuer
@@ -46,11 +46,11 @@ spec:
   tls:
   - hosts:
     - echo.ostrike.com # <-------------------------------------------- # CHANGE THIS TO YOUR DOMAIN
-    secretName: letsencrypt-echo-deployment # <---------------------------------- # THIS MUST BE UNIQUE PER INGRESS!!!
+    secretName: echo999-secret # <---------------------------------- # THIS MUST BE UNIQUE PER INGRESS!!!
   rules:
   - host: echo.ostrike.com # <---------------------------------------- # CHANGE THIS TO YOUR DOMAIN
     http:
       paths:
       - backend:
-          serviceName: echo
+          serviceName: echo999
           servicePort: 80
