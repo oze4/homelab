@@ -41,7 +41,7 @@ metadata:
   name: echo999-ingress
   annotations:  
     kubernetes.io/ingress.class: nginx # <----------------------------- # CHANGE THIS IF NOT USING NGINX INGRESS CONTROLLER
-    cert-manager.io/cluster-issuer: "letsencrypt-cluster-issuer" # <--- # CHANGE THIS TO MATCH YOUR ClusterIssuer
+    cert-manager.io/cluster-issuer: letsencrypt-prod # <--- # CHANGE THIS TO MATCH YOUR ClusterIssuer
 spec:
   tls:
   - hosts:
