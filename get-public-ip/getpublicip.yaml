@@ -26,7 +26,7 @@ kind: CronJob
 metadata:
   name: get-public-ip-cronjob
 spec:
-  schedule: "0 */1 * * *"
+  schedule: "*/15 * * * *"
   #successfulJobsHistoryLimit: 0
   #failedJobsHistoryLimit: 0
   jobTemplate:
@@ -39,13 +39,13 @@ spec:
             image: oze4/service.get-public-ip:latest
             env:
               - name: PG_USERNAME
-                value: matt
+                value: ''
               - name: PG_PASSWORD
-                value: Picante1!1
+                value: ''
               - name: PG_HOST
-                value: pg.ostrike.local:5432
+                value: host.local:5432
               - name: PG_DATABASE
-                value: data
+                value: ''
               - name: PG_TABLE
-                value: tmp
+                value: ''
           restartPolicy: OnFailure
