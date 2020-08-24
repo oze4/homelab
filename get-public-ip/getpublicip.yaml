@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ca-svc
+  namespace: default
+
+---
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ca-crb
+subjects:
+- kind: ServiceAccount
+  name: ca-svc
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: get-public-ip-cronjob
+spec:
+  schedule: "0 */1 * * *"
+  #successfulJobsHistoryLimit: 0
+  #failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: ca-svc
+          containers:
+          - name: get-public-ip
+            image: oze4/service.get-public-ip:latest
+            env:
+              - name: PG_USERNAME
+                value: matt
+              - name: PG_PASSWORD
+                value: Picante1!1
+              - name: PG_HOST
+                value: pg.ostrike.local:5432
+              - name: PG_DATABASE
+                value: data
+              - name: PG_TABLE
+                value: tmp
+          restartPolicy: OnFailure
