@@ -4,7 +4,7 @@ metadata:
   name: postgres
 spec:
   serviceName: "postgres"
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: postgres
@@ -21,17 +21,17 @@ spec:
                 name: postgres-cfgmap
           ports:
             - containerPort: 5432
-              name: postgredb
+              name: postgres-disk
           volumeMounts:
-            - name: postgredb
+            - name: postgres-disk
               mountPath: /var/lib/postgresql/data
               subPath: postgres
   volumeClaimTemplates:
     - metadata:
-        name: postgredb
+        name: postgres-disk
       spec:
         accessModes: ["ReadWriteOnce"]
         storageClassName: local-storage # CHANGED THIS
         resources:
           requests:
-            storage: 30Gi
+            storage: 3Gi

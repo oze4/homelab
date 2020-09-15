@@ -1,22 +1,22 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: postgres-pv
+  name: vault-pv
 spec:
   capacity:
-    storage: 900Gi
+    storage: 10Gi
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
+  storageClassName: vault-pv
   local:
-    path: /mnt/raid1/kubernetes
+    path: /mnt/raid1/kubernetes/vault
   nodeAffinity:
     required:
       nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - kmain0
-          #- kworker0
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - kmain0
+                #- kworker0
